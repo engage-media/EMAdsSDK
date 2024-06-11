@@ -1,0 +1,61 @@
+require 'date'
+
+# This is your Fastfile. Keep this file in your fastlane/ directory.
+# More information about how to customize your build, can be found on the
+# fastlane docs: https://docs.fastlane.tools
+default_platform(:android)
+
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+  desc "Submit a new Beta Build to Crashlytics Beta"
+  lane :beta do
+    gradle(task: "clean assembleRelease")
+    crashlytics
+
+    # sh "your_script.sh"
+    # You can also use other beta testing services here
+  end
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy do
+    gradle(task: "clean assembleRelease")
+    upload_to_play_store
+  end
+
+    desc "Build Debug AAR"
+    lane :build_debug do
+      gradle(
+        task: "assembleDebug",
+      )
+
+          upload_to_google_drive(
+            drive_keyfile: "../key/askai-4fb6e-7c9a77495244.json",
+            folder_id: "1ElCN9HVrF9f2X3slEynC5s1eV2jsw17-",
+            upload_files: ["EMAdSdk/build/outputs/aar/EMAdSdk-debug.aar"],
+            create_new_folder: true,
+            new_folder_name: Date.today.strftime("%Y-%m-%d")
+          )
+    end
+
+    desc "Build Release AAR"
+    lane :build_release do
+      gradle(
+        task: "assembleRelease",
+      )
+      puts Dir.pwd
+
+#           upload_to_google_drive(
+#             drive_keyfile: "../key/askai-4fb6e-7c9a77495244.json",
+#             folder_id: "1ElCN9HVrF9f2X3slEynC5s1eV2jsw17-",
+#             service_account: true,
+#             upload_files: ["EMAdSdk/build/outputs/aar/EMAdSdk-release.aar"],
+#             create_new_folder: true,
+#             new_folder_name: Date.today.strftime("%Y-%m-%d")
+#           )
+    end
+  end
+

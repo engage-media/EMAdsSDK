@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="EMAdView">
+        <attr name="adTagUrl" format="string"/>
+        <attr name="videoUrl" format="string"/>
+        <attr name="adTimings">
+            <flag name="pre_roll" value="0x01"/>
+            <flag name="mid_roll" value="0x02"/>
+            <flag name="post_roll" value="0x04"/>
+        </attr>
+    </declare-styleable>
+</resources>
